@@ -50,4 +50,5 @@ document.addEventListener('DOMContentLoaded', function(){
 
 
     totalDisplayElement.textContent = `Welcome,  Click the button below to start counting`
-})
+});
+// Accidentally changed DOM elements for EventListener in Step 2.1 
