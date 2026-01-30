@@ -19,6 +19,6 @@ export function getOrderInputs() {
         size: getSelectedRadioValue(),
         giftWrap: giftWrapCheck.checked 
     };
-    return orderData
+    return orderData;
 }
 
