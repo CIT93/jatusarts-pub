@@ -5,6 +5,11 @@ console.log('Hello from app.js! Your JavaScript is connected and running!');
 const totalDisplayElement = document.getElementById("total-display");
 const addItemButton = document.getElementById("add-item-btn");
 
+
+import * as orderForm from "./order-handler.js"
+
+
+
 //These variables will change as the user interacts with the page.
 const itemPrice = 15;
 let totalCost = 0;
@@ -46,9 +51,9 @@ document.addEventListener('DOMContentLoaded', function(){
     console.log('DOM fully loaded and parsed, App is ready for interaction')
     // Attach an event listener to our 'updateButton.
     // When 'updateButton' receives a 'click' event, the 'handleButtonClick' function will execute.
-    addItemButton.addEventListener('click', handleButtonClick);
+    //addItemButton.addEventListener('click', handleButtonClick);
 
 
-    totalDisplayElement.textContent = `Welcome,  Click the button below to start counting`
+    //totalDisplayElement.textContent = `Welcome,  Click the button below to start counting`
 });
 // Accidentally changed DOM elements for EventListener in Step 2.1 
