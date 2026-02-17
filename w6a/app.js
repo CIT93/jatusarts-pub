@@ -1,6 +1,7 @@
 import * as orderForm from "./order-handler.js";
 import * as priceCalculator from "./price-calculator.js";
 import * as orderSumm from "./orderSum-display.js";
+import * as orderStorage from "./order-storage.js";;
 
 const orderFormElement = document.getElementById('order-form');
 //const orderSumDiv = document.getElementById ('order-summary');
@@ -26,8 +27,15 @@ const handleOrderSubmit = function(event) {
 };
 
 const init = function() {
-    orderFormElement.addEventListener('submit', handleOrderSubmit);
     console.log('App Intialized');
+    const loadedEntries = orderStorage.loadOrders();
+    if (loadedEntries.length > 0) {
+        orders.push(...loadedEntries);
+        console.log('Data has been loaded from localStorage');
+    } else {
+        console.log('No data has been found in localStorage')
+    }
+    orderFormElement.addEventListener('submit', handleOrderSubmit);
 };
 
 document.addEventListener('DOMContentLoaded', init);
