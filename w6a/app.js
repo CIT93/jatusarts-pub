@@ -20,6 +20,7 @@ const handleOrderSubmit = function(event) {
     
     }
         orders.push(newOrder);
+        orderStorage.saveOrders(orders);
         console.log(orders);
         //orderSumDiv.textContent = `Order Summary: ${orderData.qty}, Gift Wrap: ${orderData.giftWrap}, Size: ${orderData.size}.Your total is $${priceData.totalPrice}. Thank you for your custom order!`;
         orderSumm.orderSummary(newOrder);
