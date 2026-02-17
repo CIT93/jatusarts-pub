@@ -16,4 +16,4 @@ export const orderSummary = function(order) {
         giftDisplay.textContent = 'No';
     };
     orderContainer.style.display = 'block';
-}
+};
