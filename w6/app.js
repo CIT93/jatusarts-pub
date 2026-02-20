@@ -1,12 +1,14 @@
 import * as orderForm from "./order-handler.js";
 import * as priceCalculator from "./price-calculator.js";
 import * as orderSumm from "./orderSum-display.js";
-import * as orderStorage from "./order-storage.js";;
+import * as orderStorage from "./order-storage.js";
+import * as orderList from './order-list.js';
 
 const orderFormElement = document.getElementById('order-form');
 //const orderSumDiv = document.getElementById ('order-summary');
 
 const orders = [];
+
 
 const handleOrderSubmit = function(event) {
     event.preventDefault()
@@ -21,6 +23,7 @@ const handleOrderSubmit = function(event) {
     }
         orders.push(newOrder);
         orderStorage.saveOrders(orders);
+        orderList.renderOrders(orders);
         console.log(orders);
         //orderSumDiv.textContent = `Order Summary: ${orderData.qty}, Gift Wrap: ${orderData.giftWrap}, Size: ${orderData.size}.Your total is $${priceData.totalPrice}. Thank you for your custom order!`;
         orderSumm.orderSummary(newOrder);
@@ -29,13 +32,14 @@ const handleOrderSubmit = function(event) {
 
 const init = function() {
     console.log('App Intialized');
-    const loadedEntries = orderStorage.loadOrders();
-    if (loadedEntries.length > 0) {
-        orders.push(...loadedEntries);
+    const loadedOrders = orderStorage.loadOrders();
+    if (loadedOrders.length > 0) {
+        orders.push(...loadedOrders);
         console.log('Data has been loaded from localStorage');
     } else {
         console.log('No data has been found in localStorage')
     }
+    orderList.renderOrders(orders);
     orderFormElement.addEventListener('submit', handleOrderSubmit);
 };
 
