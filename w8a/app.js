@@ -73,7 +73,7 @@ const handleFormSubmit = function (event) {
     const newEntry = {
         ...formData,
         ...calculatedResults,
-        id: storage.generateUniqueId()
+        id: storage.generateUniqueId(),
         timestamp: new Date().toISOString()
     };
     // Add the new entry to our 'carbonFootprintEntries' array.
