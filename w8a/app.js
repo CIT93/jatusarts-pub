@@ -31,10 +31,10 @@ let clearAllTimeoutId = null; // Stores the ID returned by setTimeout, so we can
 
 // Resets the "Clear All Data" button to its original text and appearance.
 
-const resetClearAllButton = function(){
+const resetClearAllButton = function () {
     // Clears any pending confirmation timeout.
     //console.log(clearAllTimeoutId);
-    if(clearAllTimeoutId) {
+    if (clearAllTimeoutId) {
         // If a timeout is active (meaning the button is in a confirming state), clear it.
         clearTimeout(clearAllTimeoutId);
     }
@@ -48,7 +48,7 @@ const resetClearAllButton = function(){
     clearAllDataButton.classList.add('danger-button');
 }
 // Resets all UI-related confirmation states across the application.
-const resetAllUIStates = function(){
+const resetAllUIStates = function () {
     // This function is called when major actions (like form submit, clear, delete) occur, ensuring a clean UI state.
     // add to any function that updates DOM
     // This will be expanded in later weeks to include table row confirmations
@@ -57,13 +57,13 @@ const resetAllUIStates = function(){
 
 
 // Handles form submission, prevents page reload, and processes input values
-const handleFormSubmit = function(event) {
+const handleFormSubmit = function (event) {
     event.preventDefault();
     // Refactor variable name to be formData which is the returned object literal
     const formData = formHandler.getFormInputs();
     //console.log(formData);
     const calculatedResults = calculator.calculateFootprint(formData);
-    
+
     // Combine the input data with the calculated results into a single entry object.
     // Date.now() gives milliseconds since Jan 1, 1970. .toISOString() formats it nicely.
     // Use the spread operator '...' to quickly copy all properties from formData
@@ -73,7 +73,7 @@ const handleFormSubmit = function(event) {
     const newEntry = {
         ...formData,
         ...calculatedResults,
-        id: storage.generateUniqueId(),
+        id: storage.generateUniqueId()
         timestamp: new Date().toISOString()
     };
     // Add the new entry to our 'carbonFootprintEntries' array.
@@ -83,27 +83,27 @@ const handleFormSubmit = function(event) {
 
     // Save the entire 'carbonFootprintEntries' array to localStorage using our storage module.
     storage.saveEntries(carbonFootprintEntries);
-    
+
     //console.log(calculatedResults);
     resultsDisplay.displayResults(calculatedResults);
     tableRenderer.renderTable(carbonFootprintEntries, {
-            onDelete: handleDeleteEntry,
-            onEdit: handleEditEntry
-        });
+        onDelete: handleDeleteEntry,
+        onEdit: handleEditEntry
+    });
     resetAllUIStates();
 };
 // New function to perform the actual clearing of all saved data.
 // Clear the in-memory array.
-const performClearAllData = function() {
+const performClearAllData = function () {
     // Setting length to 0 efficiently clears the array while keeping its const reference.
     carbonFootprintEntries.length = 0;
     console.log("In-memory array cleared:", carbonFootprintEntries);
     storage.clearAllEntries();
     // Re-render table (will show "No entries")
     tableRenderer.renderTable(carbonFootprintEntries, {
-            onDelete: handleDeleteEntry,
-            onEdit: handleEditEntry
-        });
+        onDelete: handleDeleteEntry,
+        onEdit: handleEditEntry
+    });
     // Clear the form inputs
     formHandler.clearForm();
     // Hide the results section
@@ -112,7 +112,7 @@ const performClearAllData = function() {
 };
 
 // Handles clearing and resetting all form fields to default values
-const handleClearForm = function() {
+const handleClearForm = function () {
     formHandler.clearForm();
     //carbonFootprintForm.reset();
     //householdMembersInput.value = 1;
@@ -121,13 +121,13 @@ const handleClearForm = function() {
     resetAllUIStates();
 };
 // Handles the "Delete" action for a specific entry.
-const handleDeleteEntry = function(id) {
+const handleDeleteEntry = function (id) {
     console.log(`Delete button clicked for id ${id} functionaility added in week 7`);
     // 1. Find the index of the entry to delete in our in-memory array.
-    const indexToDelete = carbonFootprintEntries.findIndex(function(entry){
+    const indexToDelete = carbonFootprintEntries.findIndex(function (entry) {
         return entry.id === id;
     });
-    if(indexToDelete !== -1) {
+    if (indexToDelete !== -1) {
         // 2. Remove the entry from the in-memory array using splice().
         carbonFootprintEntries.splice(indexToDelete, 1);
         console.log('Entry removed from memory');
@@ -139,7 +139,7 @@ const handleDeleteEntry = function(id) {
             onEdit: handleEditEntry
         });
         // 5. If the table is now empty, hide the results section and clear the form.
-        if(carbonFootprintEntries.length === 0){
+        if (carbonFootprintEntries.length === 0) {
             resultsDisplay.hideResults();
             formHandler.clearForm();
         }
@@ -153,21 +153,21 @@ const handleDeleteEntry = function(id) {
 };
 
 // Handles the "Edit" button click for a specific entry.
-const handleEditEntry = function(id) {
+const handleEditEntry = function (id) {
     console.log(`Edit button clicked for id ${id} functionaility added in week 7`);
-    
+
     resetAllUIStates();
 };
 
 // Initializes the application and attaches all event listeners once the DOM is ready
-const init = function() {
+const init = function () {
     console.log('App initialized: DOM is ready! Try submitting the form or clearing it.');
     carbonFootprintForm.addEventListener('submit', handleFormSubmit);
     clearFormButton.addEventListener('click', handleClearForm);
     resultsDisplay.hideResults();
     // On startup, attempt to load any previously saved entries from localStorage.
     const loadedEntries = storage.loadEntries();
-    if(loadedEntries.length > 0) {
+    if (loadedEntries.length > 0) {
         // If no data is found in localStorage, return an empty array.
         // carbonFootprintEntries array using the spread operator (...).
         carbonFootprintEntries.push(...loadedEntries);
@@ -175,17 +175,17 @@ const init = function() {
     } else {
         console.log('No entries found in localStorage Starting fresh')
     }
-    
-    
-    
+
+
+
     tableRenderer.renderTable(carbonFootprintEntries, {
-            onDelete: handleDeleteEntry,
-            onEdit: handleEditEntry
-        });
+        onDelete: handleDeleteEntry,
+        onEdit: handleEditEntry
+    });
     // init function - Event listener for "Clear All Data"
-    clearAllDataButton.addEventListener('click', function(event){
+    clearAllDataButton.addEventListener('click', function (event) {
         event.stopPropagation(); // Prevents this click from potentially triggering other global click listeners.
-        if(isConfirmingClearAll) {
+        if (isConfirmingClearAll) {
             // Second click: User confirms, so perform the action. 
             performClearAllData();
         } else {
@@ -195,7 +195,7 @@ const init = function() {
             // Add a class to change its appearance (defined in style.css).
             clearAllDataButton.classList.add('confirm-state');
             // Set a timeout to automatically revert the button state if the user doesn't click again.
-            clearAllTimeoutId = setTimeout(function (){
+            clearAllTimeoutId = setTimeout(function () {
                 resetClearAllButton();
                 console.log('Clear All confirmation timed out');
             }, 3000); //3 seconds
@@ -205,9 +205,9 @@ const init = function() {
     // Global click listener to reset the "Clear All Data" button state
     // if the user clicks anywhere else on the page while confirmation is pending.
     // Only reset if we are in a confirming state AND the click was outside the button itself.
-    document.addEventListener('click', function(event){
+    document.addEventListener('click', function (event) {
         console.log(event.target);
-        if(isConfirmingClearAll && event.target !== clearAllDataButton) {
+        if (isConfirmingClearAll && event.target !== clearAllDataButton) {
             resetClearAllButton();
         }
     });
