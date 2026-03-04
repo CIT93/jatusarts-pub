@@ -74,7 +74,7 @@ export const calculateFootprint = function (data) {
     const householdPoints = calculateHouseholdPoints(data.householdMembers);
     const homesizePoints = calculateHomeSizePoints(data.homeSquareFootage, data.isApartment);
     const dietTypePoints = calculateFoodDietPoints(data.dietType);
-    const foodPackagingPoints = calculateFoodPackgingPoints(data.foodPackaging);
+    const foodPackagingPoints = calculateFoodPackagingPoints(data.foodPackaging);
     
     // Sum up all category points for the total footprint
     const totalFootprintPoints = householdPoints + homesizePoints + dietTypePoints + foodPackagingPoints;

@@ -22,7 +22,7 @@ export const saveEntries = function (entries) {
     // into a JSON string using JSON.stringify() before saving.
     // Try Catch Block - Error Checking
     try {
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(entries));
+        localStorage.setItem(LOCAL_STORAGE_KEY, entries);
         console.log('Data saved to localStorage Successfully!');
     } catch (error) {
         console.error(`Error saving data to localStorage: ${error} `)
